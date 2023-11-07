@@ -1,5 +1,11 @@
 .ProductsList{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.productsListCards{
+    display: flex;
     justify-content: center;
     gap: 20px;
 }

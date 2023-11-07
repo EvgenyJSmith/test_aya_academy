@@ -1,13 +1,12 @@
 
-import { useEffect, useState } from 'react'
-import { getProducts } from '../../services/api'
-import { ProductItem } from '../ProductItem'
+import { useEffect, useState } from 'react';
+import { getProducts } from '../../services/api';
+import { ProductItem } from '../ProductItem';
 import { ButtonCart } from '../ButtonCart';
+import { localstorageKey } from '../../services/config';
 
 import styles from './ProductsList.module.scss';
 
-
-const localstorageKey = 'ayaTestShop';
 
 export const ProductsList = () => {
     const [products, setProducts] = useState([])
@@ -25,21 +24,20 @@ export const ProductsList = () => {
         const response = await getProducts();
         setIsProductsLoading(false);
 
-        setProducts(response)
-        // console.log(response);
+        setProducts(response);
     }
 
-    function inCart(){
+    function inCart() {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
         setGoodsInCart(storage.length);
     }
 
     return (
-        <div>
-            <ButtonCart  goodsInCart={goodsInCart}/>
+        <div className={styles.ProductsList}>
+            <ButtonCart goodsInCart={goodsInCart} />
             <h1>Список товаров</h1>
             {isProductsLoading ? <div>Loading</div> :
-                <div className={styles.ProductsList}>
+                <div className={styles.productsListCards}>
                     {products.map(product =>
                         <ProductItem
                             key={product.id}

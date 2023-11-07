@@ -3,12 +3,12 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 
 import { getSizes, getProduct, getProductColor } from '../../services/api'
+import { ButtonCart } from "../ButtonCart"
+import { localstorageKey } from '../../services/config'
 
 import styles from './ProductCard.module.scss'
-import { ButtonCart } from "../ButtonCart"
+import { ButtonLink } from "../ButtonLink"
 
-
-const localstorageKey = 'ayaTestShop';
 
 export const ProductCard = () => {
     // категория товара
@@ -39,21 +39,18 @@ export const ProductCard = () => {
         setIsProductLoading(false);
 
         setProduct(response);
-        // console.log(response);
     }
 
     async function fetchProductColor(colorId) {
         const response = await getProductColor(productId.id, colorId)
 
         setProductColor(response);
-        // console.log(response);
     }
 
     async function fetchSizes() {
         const response = await getSizes()
 
         setProductSizes(response);
-        // console.log(response);
     }
 
 
@@ -83,10 +80,9 @@ export const ProductCard = () => {
         }
 
         putToLocalstorage(localstorageKey, itemIds);
-        // console.log(itemIds);
     }
 
-    function inCart(){
+    function inCart() {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
         setGoodsInCart(storage.length);
     }
@@ -109,15 +105,15 @@ export const ProductCard = () => {
 
         let clone = false;
 
-        storage.forEach((el)=>{
-            if(el.productColorId == data.productColorId && 
+        storage.forEach((el) => {
+            if (el.productColorId == data.productColorId &&
                 el.productId == data.productId &&
-                el.productSizeId == data.productSizeId){
+                el.productSizeId == data.productSizeId) {
                 clone = true;
             }
         })
 
-        if(clone){
+        if (clone) {
             return;
         }
 
@@ -131,8 +127,8 @@ export const ProductCard = () => {
 
     return (
         <>
-            <ButtonCart goodsInCart={goodsInCart}/>
-            {/* <Link to={'/'} className={styles.ButtonCart}>Назад</Link> */}
+            <ButtonCart goodsInCart={goodsInCart} />
+            <ButtonLink to={'/'}>На главную</ButtonLink>
             {isProductLoading ? <div>Loading</div> :
                 <div className={styles.ProductCard}>
                     <span>{product.name} {productColor.name}</span>

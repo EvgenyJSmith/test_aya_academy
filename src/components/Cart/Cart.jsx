@@ -1,11 +1,11 @@
 
 import { useEffect, useState } from 'react'
 import { getSizes, getProducts } from '../../services/api'
+import { localstorageKey } from '../../services/config'
+import { ButtonLink } from "../ButtonLink"
 
 import styles from './Cart.module.scss'
 
-
-const localstorageKey = 'ayaTestShop';
 
 export const Cart = () => {
     // товары из стораджа
@@ -13,20 +13,20 @@ export const Cart = () => {
 
     useEffect(() => {
         assembleCart();
+    }, [])
 
+    useEffect(() => {
+        assembleCart();
     }, [products])
 
     async function assembleCart() {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
-        // console.log(storage);
 
         const cart = [];
         let id = 0;
 
         const sizes = await getSizes();
         const products = await getProducts();
-
-        // console.log(sizes);
 
         for (let product of storage) {
             const productData = {};
@@ -45,16 +45,11 @@ export const Cart = () => {
             cart.push(productData);
         }
 
-        // console.log(cart);
-
         setProducts(cart)
     }
 
     function removeFromCart(storageId) {
-        console.log(storageId);
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
-
-        console.log(storage);
 
         storage = storage.filter(product => {
             if (product.productId == storageId.productId
@@ -65,16 +60,14 @@ export const Cart = () => {
             return true;
         })
 
-
         localStorage.setItem(localstorageKey, JSON.stringify(storage));
-
         setProducts([])
     }
 
     return (
         <div className={styles.Cart}>
+            <ButtonLink to={'/'}>На главную</ButtonLink>
             <h1>Корзина товаров</h1>
-            {/* {isProductLoading ? <div>Loading</div> : */}
             <div className={styles.cartContent}>
                 {products.map(product =>
                     <div key={product.id} className={styles.card}>
@@ -89,7 +82,6 @@ export const Cart = () => {
                     </div>
                 )}
             </div>
-            {/* } */}
         </div>
     )
 }
