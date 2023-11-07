@@ -1,0 +1,26 @@
+.ProductCard {
+    display: flex;
+    flex-direction: column;
+}
+
+.productCardImg {
+    height: 400px;
+    width: auto;
+
+    img {
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+}
+
+.productCardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    width: 600px;
+
+    flex: 1 0 100%;
+}
