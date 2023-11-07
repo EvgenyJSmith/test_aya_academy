@@ -83,7 +83,6 @@ export const ProductCard = () => {
     }
 
     function putLocalstorage(localstorageKey, data) {
-        // let itemData = JSON.stringify(data);
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
 
         if (!storage) {
@@ -91,13 +90,30 @@ export const ProductCard = () => {
             storage.push(data);
 
             localStorage.setItem(localstorageKey, JSON.stringify(storage));
+
+            console.log(storage, data);
             return;
         }
 
 
-        
+        let clone = false;
 
-        console.log(storage, data);
+        storage.forEach((el)=>{
+            if(el.productColorId == data.productColorId && 
+                el.productId == data.productId &&
+                el.productSizeId == data.productSizeId){
+                clone = true;
+            }
+        })
+
+        if(clone){
+            return;
+        }
+
+        storage.push(data);
+        localStorage.setItem(localstorageKey, JSON.stringify(storage));
+
+        console.log(storage);
     }
 
     return (
