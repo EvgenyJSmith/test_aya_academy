@@ -13,10 +13,6 @@ export const Cart = () => {
 
     useEffect(() => {
         assembleCart();
-    }, [])
-
-    useEffect(() => {
-        assembleCart();
     }, [products])
 
     async function assembleCart() {
