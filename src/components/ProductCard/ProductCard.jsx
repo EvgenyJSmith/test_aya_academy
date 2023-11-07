@@ -20,6 +20,8 @@ export const ProductCard = () => {
     const [productSizes, setProductSizes] = useState([])
     // 
     const [imgIndex, setImgIndex] = useState(0);
+    // товаров в корзине
+    const [goodsInCart, setGoodsInCart] = useState(0);
 
     const localstorageKey = 'ayaTestShop';
 
@@ -27,6 +29,7 @@ export const ProductCard = () => {
         fetchProduct();
         fetchProductColor(1);
         fetchSizes();
+        inCart();
     }, [])
 
     async function fetchProduct() {
@@ -82,6 +85,11 @@ export const ProductCard = () => {
         // console.log(itemIds);
     }
 
+    function inCart(){
+        let storage = JSON.parse(localStorage.getItem(localstorageKey));
+        setGoodsInCart(storage.length);
+    }
+
     function putLocalstorage(localstorageKey, data) {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
 
@@ -90,6 +98,8 @@ export const ProductCard = () => {
             storage.push(data);
 
             localStorage.setItem(localstorageKey, JSON.stringify(storage));
+
+            setGoodsInCart(storage.length);
 
             console.log(storage, data);
             return;
@@ -113,12 +123,14 @@ export const ProductCard = () => {
         storage.push(data);
         localStorage.setItem(localstorageKey, JSON.stringify(storage));
 
+        setGoodsInCart(storage.length);
+
         console.log(storage);
     }
 
     return (
         <>
-            <ButtonCart />
+            <ButtonCart goodsInCart={goodsInCart}/>
             {/* <Link to={'/'} className={styles.ButtonCart}>Назад</Link> */}
             {isProductLoading ? <div>Loading</div> :
                 <div className={styles.ProductCard}>
