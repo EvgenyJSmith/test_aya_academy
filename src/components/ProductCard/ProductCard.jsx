@@ -2,10 +2,13 @@
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 
-import { getSizes, getSize, getProduct, getProductColor } from '../../services/api'
+import { getSizes, getProduct, getProductColor } from '../../services/api'
 
 import styles from './ProductCard.module.scss'
 import { ButtonCart } from "../ButtonCart"
+
+
+const localstorageKey = 'ayaTestShop';
 
 export const ProductCard = () => {
     // категория товара
@@ -22,8 +25,6 @@ export const ProductCard = () => {
     const [imgIndex, setImgIndex] = useState(0);
     // товаров в корзине
     const [goodsInCart, setGoodsInCart] = useState(0);
-
-    const localstorageKey = 'ayaTestShop';
 
     useEffect(() => {
         fetchProduct();
@@ -81,7 +82,7 @@ export const ProductCard = () => {
             productSizeId: sizeId,
         }
 
-        putLocalstorage(localstorageKey, itemIds);
+        putToLocalstorage(localstorageKey, itemIds);
         // console.log(itemIds);
     }
 
@@ -90,7 +91,7 @@ export const ProductCard = () => {
         setGoodsInCart(storage.length);
     }
 
-    function putLocalstorage(localstorageKey, data) {
+    function putToLocalstorage(localstorageKey, data) {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
 
         if (!storage) {
