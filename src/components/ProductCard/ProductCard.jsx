@@ -1,5 +1,5 @@
 
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 
 import { getSizes, getProduct, getProductColor } from '../../services/api'
@@ -97,8 +97,6 @@ export const ProductCard = () => {
             localStorage.setItem(localstorageKey, JSON.stringify(storage));
 
             setGoodsInCart(storage.length);
-
-            console.log(storage, data);
             return;
         }
 
@@ -121,8 +119,6 @@ export const ProductCard = () => {
         localStorage.setItem(localstorageKey, JSON.stringify(storage));
 
         setGoodsInCart(storage.length);
-
-        console.log(storage);
     }
 
     return (
