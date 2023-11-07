@@ -1,3 +1,34 @@
 .Cart{
     // background-color: aqua;
 }
+.cartContent{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 50px 20px;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    font-size: 1.2rem;
+
+    h2{
+        font-size: 1.4rem;
+        margin: 0;
+    }
+}
+
+.cardImg{
+    height: 200px;
+
+    img{
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+}

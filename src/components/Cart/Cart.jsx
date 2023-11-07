@@ -12,12 +12,13 @@ export const Cart = () => {
     const [products, setProducts] = useState([])
 
     useEffect(() => {
-        asssembleCart();
-    }, [])
+        assembleCart();
 
-    async function asssembleCart() {
+    }, [products])
+
+    async function assembleCart() {
         let storage = JSON.parse(localStorage.getItem(localstorageKey));
-        console.log(storage);
+        // console.log(storage);
 
         const cart = [];
         let id = 0;
@@ -44,25 +45,51 @@ export const Cart = () => {
             cart.push(productData);
         }
 
-        console.log(cart);
+        // console.log(cart);
 
         setProducts(cart)
     }
 
-    function removeFromCart(){
+    function removeFromCart(storageId) {
+        console.log(storageId);
+        let storage = JSON.parse(localStorage.getItem(localstorageKey));
 
+        console.log(storage);
+
+        storage = storage.filter(product => {
+            if (product.productId == storageId.productId
+                && product.productSizeId == storageId.productSizeId
+                && product.productColorId == storageId.productColorId) {
+                return false;
+            }
+            return true;
+        })
+
+
+        localStorage.setItem(localstorageKey, JSON.stringify(storage));
+
+        setProducts([])
     }
 
     return (
         <div className={styles.Cart}>
             <h1>Корзина товаров</h1>
-            <div>
+            {/* {isProductLoading ? <div>Loading</div> : */}
+            <div className={styles.cartContent}>
                 {products.map(product =>
-                    <div key={product.id}>
+                    <div key={product.id} className={styles.card}>
+                        <div className={styles.cardImg}>
+                            <img src={product.color.images[0]} alt="" />
+                        </div>
                         <h2>{product.name}</h2>
+                        <span>Цвет: {product.color.name}</span>
+                        <span>Размер: {product.size.label}/{product.size.number}</span>
+                        <span>Цена: {product.color.price}</span>
+                        <button onClick={() => removeFromCart(product.storage)}>Удалить</button>
                     </div>
                 )}
             </div>
+            {/* } */}
         </div>
     )
 }
