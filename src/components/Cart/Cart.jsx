@@ -57,7 +57,7 @@ export const Cart = () => {
         })
 
         localStorage.setItem(localstorageKey, JSON.stringify(storage));
-        setProducts([])
+        setProducts(()=>[])
     }
 
     return (
