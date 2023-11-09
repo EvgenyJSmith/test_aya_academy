@@ -12,6 +12,7 @@ import { ButtonLink } from "../ButtonLink"
 import {productToLocalstorage} from '../../services/productToLocalstorege'
 
 import { useGoodsInCart } from '../../hooks/useGoodsInCart';
+import { useFetchSizes } from "../../hooks/useFetchSizes"
 
 
 export const ProductCard = () => {
@@ -24,7 +25,7 @@ export const ProductCard = () => {
     // лоадер
     const [isProductLoading, setIsProductLoading] = useState(false)
     // размеры
-    const [productSizes, setProductSizes] = useState([])
+    const [productSizes] = useFetchSizes()
     // 
     const [imgIndex, setImgIndex] = useState(0);
 
@@ -34,7 +35,6 @@ export const ProductCard = () => {
     useEffect(() => {
         fetchProduct();
         fetchProductColor(1);
-        fetchSizes();
     }, [])
 
     async function fetchProduct() {
@@ -49,12 +49,6 @@ export const ProductCard = () => {
         const response = await getProductColor(productId.id, colorId)
 
         setProductColor(response);
-    }
-
-    async function fetchSizes() {
-        const response = await getSizes()
-
-        setProductSizes(response);
     }
 
 
