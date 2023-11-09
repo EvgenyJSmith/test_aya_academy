@@ -7,18 +7,17 @@ export const useFetchProducts = () => {
     const [products, setProducts] = useState([])
     const [isProductsLoading, setIsProductsLoading] = useState(false)
 
-    useEffect(() => {
-        // fetchProducts();
-        execute();
-    }, [])
-
-    const execute = useCallback(async function fetchProducts() {
+    const fetchProducts = useCallback(async () => {
         setIsProductsLoading(true);
         const response = await getProducts();
         setIsProductsLoading(false);
 
         setProducts(() => response);
     }, [])
+
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts])
 
     return [products, isProductsLoading]
 }

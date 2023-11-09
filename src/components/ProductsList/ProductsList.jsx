@@ -1,5 +1,4 @@
 
-import { useEffect, useState } from 'react';
 import { ProductItem } from '../ProductItem';
 import { ButtonCart } from '../ButtonCart';
 

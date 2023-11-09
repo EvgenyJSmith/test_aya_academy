@@ -11,5 +11,5 @@ export const useGoodsInCart = () => {
         setGoodsInCart(storage.length);
     }, [storage.length])
 
-    return [goodsInCart];
+    return [goodsInCart, setGoodsInCart];
 }

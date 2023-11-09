@@ -9,6 +9,10 @@ import { localstorageKey } from '../../services/config'
 import styles from './ProductCard.module.scss'
 import { ButtonLink } from "../ButtonLink"
 
+import {productToLocalstorage} from '../../services/productToLocalstorege'
+
+import { useGoodsInCart } from '../../hooks/useGoodsInCart';
+
 
 export const ProductCard = () => {
     // категория товара
@@ -23,14 +27,14 @@ export const ProductCard = () => {
     const [productSizes, setProductSizes] = useState([])
     // 
     const [imgIndex, setImgIndex] = useState(0);
+
     // товаров в корзине
-    const [goodsInCart, setGoodsInCart] = useState(0);
+    const [goodsInCart, setGoodsInCart] = useGoodsInCart();
 
     useEffect(() => {
         fetchProduct();
         fetchProductColor(1);
         fetchSizes();
-        inCart();
     }, [])
 
     async function fetchProduct() {
@@ -79,47 +83,9 @@ export const ProductCard = () => {
             productSizeId: sizeId,
         }
 
-        putToLocalstorage(localstorageKey, itemIds);
+        setGoodsInCart(productToLocalstorage(localstorageKey, itemIds));
     }
 
-    function inCart() {
-        let storage = JSON.parse(localStorage.getItem(localstorageKey));
-        setGoodsInCart(storage.length);
-    }
-
-    function putToLocalstorage(localstorageKey, data) {
-        let storage = JSON.parse(localStorage.getItem(localstorageKey));
-
-        if (!storage) {
-            storage = [];
-            storage.push(data);
-
-            localStorage.setItem(localstorageKey, JSON.stringify(storage));
-
-            setGoodsInCart(storage.length);
-            return;
-        }
-
-
-        let clone = false;
-
-        storage.forEach((el) => {
-            if (el.productColorId == data.productColorId &&
-                el.productId == data.productId &&
-                el.productSizeId == data.productSizeId) {
-                clone = true;
-            }
-        })
-
-        if (clone) {
-            return;
-        }
-
-        storage.push(data);
-        localStorage.setItem(localstorageKey, JSON.stringify(storage));
-
-        setGoodsInCart(storage.length);
-    }
 
     return (
         <>
