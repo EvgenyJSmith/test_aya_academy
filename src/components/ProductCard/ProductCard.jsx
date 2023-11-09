@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from 'react'
 
-import { getSizes, getProduct, getProductColor } from '../../services/api'
+import {getProductColor } from '../../services/api'
 import { ButtonCart } from "../ButtonCart"
 import { localstorageKey } from '../../services/config'
 
@@ -13,44 +13,34 @@ import {productToLocalstorage} from '../../services/productToLocalstorege'
 
 import { useGoodsInCart } from '../../hooks/useGoodsInCart';
 import { useFetchSizes } from "../../hooks/useFetchSizes"
+import { useFetchProduct } from "../../hooks/useFetchProduct"
 
 
 export const ProductCard = () => {
     // категория товара
     const productId = useParams();
     // товар всех цветов
-    const [product, setProduct] = useState({})
+    const [product, isProductLoading, setProduct] = useFetchProduct(productId.id)
     // товар 1 цвета
     const [productColor, setProductColor] = useState({})
-    // лоадер
-    const [isProductLoading, setIsProductLoading] = useState(false)
     // размеры
     const [productSizes] = useFetchSizes()
     // 
     const [imgIndex, setImgIndex] = useState(0);
-
     // товаров в корзине
     const [goodsInCart, setGoodsInCart] = useGoodsInCart();
 
     useEffect(() => {
-        fetchProduct();
         fetchProductColor(1);
+
+        setProduct();
     }, [])
-
-    async function fetchProduct() {
-        setIsProductLoading(true);
-        const response = await getProduct(productId.id);
-        setIsProductLoading(false);
-
-        setProduct(response);
-    }
 
     async function fetchProductColor(colorId) {
         const response = await getProductColor(productId.id, colorId)
 
         setProductColor(response);
     }
-
 
     async function changeColor(colorId) {
         await fetchProductColor(colorId)
