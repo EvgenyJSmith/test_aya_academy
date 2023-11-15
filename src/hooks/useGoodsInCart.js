@@ -7,6 +7,10 @@ export const useGoodsInCart = () => {
 
     let storage = JSON.parse(localStorage.getItem(localstorageKey));
 
+    if(!storage){
+        storage  = []
+    }
+
     useEffect(() => {
         setGoodsInCart(storage.length);
     }, [storage.length])
